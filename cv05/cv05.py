@@ -1,9 +1,8 @@
 import numpy as np
-import matplotlib.pyplot as plt
 import matplotlib
 import cv2
 
-from uzo_func.func import show_plt
+from uzo_func.func import plot_images_and_spectrum
 
 matplotlib.use('TkAgg')
 
@@ -52,20 +51,6 @@ def metoda_medianu(img):
             filtered_image[y, x] = np.median(vector_for_median)
     return filtered_image.astype(np.uint8)
 
-
-def plot_images_and_spectrum(img1, img2, spectrum1, spectrum2, method="Filtered"):
-    fig, ax = plt.subplots(2, 2)
-    ax[0, 0].imshow(img1, cmap="gray")
-    ax[0, 0].set_title("Original")
-    ax[0, 1].imshow(np.log(np.abs(spectrum1) + 1), cmap="jet")
-    ax[0, 1].set_title("Spectrum")
-    ax[1, 0].imshow(img2, cmap="gray")
-    ax[1, 0].set_title(method)
-    ax[1, 1].imshow(np.log(np.abs(spectrum2) + 1), cmap="jet")
-    ax[1, 1].set_title("Spectrum")
-
-    show_plt()
-
 gray = cv2.imread("../data/cv05_robotS.bmp", cv2.IMREAD_GRAYSCALE).astype(np.float32)
 
 filtered_image = metoda_prosteho_prumerovani(gray)
@@ -73,17 +58,17 @@ fft2_og = np.fft.fft2(gray)
 fft2_og = np.fft.fftshift(fft2_og)
 fft2_filtered = np.fft.fft2(filtered_image)
 fft2_filtered = np.fft.fftshift(fft2_filtered)
-plot_images_and_spectrum(gray, filtered_image, fft2_og, fft2_filtered, "Average")
+plot_images_and_spectrum((gray, filtered_image), (fft2_og, fft2_filtered), ("Original", "Average"))
 
 filtered_image = metoda_rotujuci_masky(gray)
 fft2_filtered = np.fft.fft2(filtered_image)
 fft2_filtered = np.fft.fftshift(fft2_filtered)
-plot_images_and_spectrum(gray, filtered_image, fft2_og, fft2_filtered, "Rotation mask")
+plot_images_and_spectrum((gray, filtered_image), (fft2_og, fft2_filtered), ("Original", "Rotation mask"))
 
 filtered_image = metoda_medianu(gray)
 fft2_filtered = np.fft.fft2(filtered_image)
 fft2_filtered = np.fft.fftshift(fft2_filtered)
-plot_images_and_spectrum(gray, filtered_image, fft2_og, fft2_filtered, "Median")
+plot_images_and_spectrum((gray, filtered_image), (fft2_og, fft2_filtered), ("Original", "Median"))
 
 gray = cv2.imread("../data/cv05_PSS.bmp", cv2.IMREAD_GRAYSCALE).astype(np.float32)
 
@@ -92,14 +77,14 @@ fft2_og = np.fft.fft2(gray)
 fft2_og = np.fft.fftshift(fft2_og)
 fft2_filtered = np.fft.fft2(filtered_image)
 fft2_filtered = np.fft.fftshift(fft2_filtered)
-plot_images_and_spectrum(gray, filtered_image, fft2_og, fft2_filtered, "Average")
+plot_images_and_spectrum((gray, filtered_image), (fft2_og, fft2_filtered), ("Original", "Average"))
 
 filtered_image = metoda_rotujuci_masky(gray)
 fft2_filtered = np.fft.fft2(filtered_image)
 fft2_filtered = np.fft.fftshift(fft2_filtered)
-plot_images_and_spectrum(gray, filtered_image, fft2_og, fft2_filtered, "Rotation mask")
+plot_images_and_spectrum((gray, filtered_image), (fft2_og, fft2_filtered), ("Original", "Rotation mask"))
 
 filtered_image = metoda_medianu(gray)
 fft2_filtered = np.fft.fft2(filtered_image)
 fft2_filtered = np.fft.fftshift(fft2_filtered)
-plot_images_and_spectrum(gray, filtered_image, fft2_og, fft2_filtered, "Median")
+plot_images_and_spectrum((gray, filtered_image), (fft2_og, fft2_filtered), ("Original", "Median"))
