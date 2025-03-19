@@ -49,10 +49,12 @@ def detektor_hran(img, detector_type):
                 value_id = 0
                 for mask in masks:
                     for _ in range(4):
-                        values[value_id] = np.sum(img[y:y+3, x:x+3] * mask) ** 2
+                        # values[value_id] = np.sum(img[y:y+3, x:x+3] * mask) ** 2
+                        values[value_id] = np.sum(img[y:y+3, x:x+3] * mask)
                         value_id += 1
                         mask = np.rot90(mask)
-                img_edges[y, x] = np.sqrt(np.sum(values))
+                # img_edges[y, x] = np.sqrt(np.sum(values))
+                img_edges[y, x] = np.max(values)
     return img_edges
 
 gray = cv2.imread("../data/cv04c_robotC.bmp", cv2.IMREAD_GRAYSCALE).astype(np.float32)
