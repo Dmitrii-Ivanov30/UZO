@@ -21,3 +21,17 @@ def plot_images_and_spectrum(images, spectrums, names, cmaps = None):
         fig.colorbar(spectrum_clr_map, ax=ax[img_index, 1])
 
     show_plt()
+
+def hist_segmentation(image: np.ndarray, prah: int=255//2, prah_min: int=0) -> np.ndarray:
+    """
+    Implementuje algoritmus segmentace pomoci histogramu
+    :param image: půvidní obrázek
+    :param prah: hodnota prahu
+    :param prah_min: hodnota dolniho prahu
+    :return:
+    """
+    hist, bins = np.histogram(image, bins=256, range=(0, 256))
+    hist[:prah_min] = 0
+    hist[prah_min:prah] = 1
+    hist[prah:] = 0
+    return hist[image]
